@@ -1,0 +1,14 @@
+{
+  "name": "notify-from-line",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "author": "Kaname",
+  "license": "MIT",
+  "dependencies": {
+    "@line/bot-sdk": "^5.2.0",
+    "dotenv": "^5.0.0",
+    "express": "^4.16.2",
+    "google-home-notifier": "^1.2.0"
+  }
+}

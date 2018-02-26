@@ -2,27 +2,24 @@
 
 require('dotenv').config();
 const googlehome = require('google-home-notifier');
-const line = require('@line/bot-sdk');
-const express = require('express');
-
-const config = {
-  channelSecret: process.env.LINE_CHANNEL_SECRET
+const bbt = require('beebotte');
+const channel = process.env.BEEBOTTE_CHANNEL_NAME;
+const transport = {
+  type: 'mqtt',
+  token: process.env.BEEBOTTE_CHANNEL_TOKEN
 };
 
 googlehome.device(process.env.DEVICE_NAME, process.env.LANG);
 
-const app = express();
-app.post(process.env.WEBHOOK_PATH, line.middleware(config), (req, res) => {
-  Promise
-    .all(req.body.events.map(handleEvent))
-    .then((result) => res.json(result));
+const client = new bbt.Stream({ transport: transport });
+client.on('connected', function () {
+  client.subscribe(channel, 'dad', handleEvent('お父さん'));
+  client.subscribe(channel, 'mom', handleEvent('お母さん'));
 });
 
-function handleEvent(event) {
-  if (event.type === 'message' && event.message.type === 'text') {
-    googlehome.notify(event.message.text, res => console.log(res));
-  }
+function handleEvent(resource) {
+  return function (message) {
+    googlehome.notify(resource + 'から、' + message.data, res => console.log(res));
+  };
 }
-
-app.listen(process.env.PORT);
 

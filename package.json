@@ -6,9 +6,8 @@
   "author": "Kaname",
   "license": "MIT",
   "dependencies": {
-    "@line/bot-sdk": "^5.2.0",
+    "beebotte": "^1.2.2",
     "dotenv": "^5.0.0",
-    "express": "^4.16.2",
     "google-home-notifier": "^1.2.0"
   }
 }
